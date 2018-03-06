@@ -1,0 +1,268 @@
+\documentclass{beamer}%42 inches hieght 52 inches width
+\usepackage[orientation=landscape, size=custom, height=106, width=132, scale=1.4]{beamerposter}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{type1cm}
+\usepackage{calc} 
+\usepackage{amsmath,amsthm, amssymb, amstext, latexsym, enumitem,  graphicx}
+\boldmath
+\usepackage[english]{babel}
+\usefonttheme[onlymath]{serif}
+
+
+	\setbeamercolor*{}{fg=brown,bg=brown}
+	\setbeamercolor{frametitle}{fg=brown,bg=brown!20}
+\setlength{\TPHorizModule}{1 mm}
+\setlength{\TPVertModule}{1 mm}
+\usetheme[]{EastLansing}
+\usecolortheme{seagull}
+%  Title, date and authors of the poster 
+\title{A Proposed Rubik's Cube Cipher vs. the Classic Trifid Cipher}
+\author{Blake Willoughby}
+\institute{Arizona State University}
+\date{\today}
+%\usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]{eso-pic}
+
+\begin{document}
+		\setbeamercolor*{}{fg=brown,bg=brown}
+		\setbeamercolor{frametitle}{fg=brown,bg=brown!20}
+	\begin{block}  
+		{\centering \Huge \texttt{A Proposed Rubik's Cube Cipher vs. the Classic Trifid Cipher}}
+		\begin{center}
+			\Large\texttt{
+			Blake Willoughby\\
+				Arizona State University\\
+				}
+		\end{center}
+	\end{block}  
+	\begin{textblock}{20}(60, 10)
+		\begin{center}
+			\includegraphics[scale = .3]{tryThis}
+		\end{center}
+	\end{textblock}	
+\begin{textblock}{20}(1199, 10)
+	\begin{center}
+	\includegraphics[scale = .3]{tryThis}
+	\end{center}
+\end{textblock}	
+	\begin{textblock}{251}(534.5,100)
+	\begin{center}
+	\includegraphics[scale = 1]{RubiksSidesNotJumbled}
+	\end{center}
+	\end{textblock}
+	\begin{textblock}{251}(534.5,410)
+	\begin{center}	
+	\includegraphics[scale = 1]{RubiksSidesJumbled}
+	\end{center}
+	\end{textblock}
+	
+
+
+\begin{textblock}{485}(24.75,95)
+	{\centering \Large \Huge\texttt{Proposed Rubik's Cube Cipher.}}
+	\begin{block}{\texttt{Overview.}}
+		\begin{itemize}
+			\item [$\blacklozenge$] Combination cipher - substitution, followed by transposition and fractionation.
+			\item [$\blacklozenge$] Key size - $21$ permutations.
+			\item [$\blacklozenge$] Key space - $43,252,003,274,489,856,000\cdot 5=2^{27}\cdot 3^{14}\cdot 5^{3}\cdot 7^{2}\cdot 11\cdot 5$.
+		\end{itemize}
+	\end{block}
+	\begin{block}{\texttt{Key Selection and Size.}}
+		A key is chosen by two parties, that is made up of, $\Phi$, a composition of permutations of a $3\times 3\times 3$ Rubik's cube, $R_{3}$, and also a permutation $\tau\in S_{3}$, the group of all permutations of a $3$ element set.
+		
+		Let $R_{3}=\{F,B,R,L,U,D\}$ be the set of permutaions of a $3\times 3\times 3$ Rubik's cube, where each permutation is a $90$ degree clockwise rotation of its repsective side.\\
+		We have $S_{3}=\{(1),(1\,\,2), (1\,\,3), (2\,\,3),(1\,\,2\,\,3),(1\,\,3\,\,2)\}$.
+		
+		All permutations of Rubik's cube can be reached in twenty moves or less, using the half-turn metric(Rokicki). Thus, the key size would be no greater than a composition of $20$ permutations from the set $R_{3}$ and $1$ non-identity permutation from the from the set $S_{3}$.
+	\end{block}
+
+	\begin{block}{\texttt{Keyspace.}}
+		There are $8$ corner cubelets that can interchange with each other. There are $12$ edges that can interchage with each other. Each corner can exist in three different states. Each edge can exist in two different states. Thus you would think the number of permutations is $(8!)(12!)(3^{8})(2^{12})$. However, this counts the permutations of the faces twice, the orientations of the edges twice, and the orientations of the corners three times. Therefore, the total number of permutations of Rubik's cube is
+		\begin{center}
+			$\frac{(8!)(12!)(3^{8})(2^{12})}{2\cdot 2\cdot 3}=2^{27}\cdot 3^{14}\cdot 5^{3}\cdot 7^{2}\cdot 11$(Benton).
+		\end{center}
+		Then there are $5$ different non-identity permutations in $S_{3}$.\\
+        Thus the keypace is $2^{27}\cdot 3^{14}\cdot 5^{3}\cdot 7^{2}\cdot 11\cdot 5$.
+	\end{block}
+	\begin{block}{\texttt{Encryption.}}
+		Each side of Rubik's cube is assigned a permutation in $S_{3}$. In our example we have the following:
+		\begin{align*}
+		F&=(1) &&R=(1\,\,2) &&U=(1\,\,2\,\,3)\\
+		B&=(1\,\,3) &&L=(1\,\,3\,\,2) &&D=(2\,\,3)
+		\end{align*}
+		The key we have chosen in this example is the following:
+		\begin{center}
+			$Key:\,\Phi=U^{2}D^{2}R^{2}L^{2}F^{2}B^{2},\,\,\tau=(1\,\,3\,\,2)$
+		\end{center}
+		Let us encrypt the plaintext ``$Rubiks$ $Cipher$."\\
+		We first permute Rubik's cube, by way of the composition $\Phi$. Once permuted, we record the coordinates of each letter on their respective sides, and also record their permutation $\sigma_{i}\in S_{3}$ associated with the side the letter is on.
+		\begin{center}
+			$\begin{array}{lrcccccccccccc}
+			Plaintext&: & R & u & b & i & k & s & C & i & p & h & e & r \\ 
+			x&: & 1 & 3 & 2 & 1 & 1 & 1 & 1 & 1 & 3 & 2 & 2 & 3 \\ 
+			y&: & 3 & 3 & 1 & 3 & 2 & 3 & 1 & 3 & 1 & 3 & 2 & 3 \\ 
+			Side&: & L & D & D & U & L & D & F & U & R & D & U & R \\ 
+			\sigma_{i}&: & (1 3 2) & (2 3) & (2 3) & (1 2 3) & (1 3 2) & (2 3) & (1) & (1 2 3) & (1 2) & (2 3) & (1 2 3) & (1 2)
+			\end{array} $
+		\end{center}
+		We now recursively compute the premutation $\alpha_{i}\in S_{3}$ as follows:
+		\begin{center}
+			$\alpha_{1}=\sigma_{1}\circ \tau$ and $\alpha_{i+1}=\alpha_{k}\circ \sigma_{i+1}$.
+		\end{center}
+		 Finding the ciphertext, we have the following:
+		\begin{center}
+			$\begin{array}{lcccccccccccc}
+			\alpha_{i}: & (1 2 3) & (1 2) & (1 2 3) & (1 3 2) & (1 2 3) & (1 2) & (1 2) & (2 3) & (1 3 2) & (1 3) & (1 2) & (1)\\
+			Side: &U&R&U&L&U&R&R&D&L&B&R&F\\
+			Ciphertext: &1&L&t&p&x&J&P&a&l&T&N&C
+			\end{array} $
+		\end{center}
+	\end{block}
+	\begin{block}{\texttt{Decryption.}}
+		For decryption you start with Rubik's cube in the standard orientation. Then record the coordinates of the letters in the ciphertext and the permutation associated with the side the letter is on. We then have the following:
+		\begin{center}
+			$\begin{array}{lcccccccccccc}
+			Ciphertext: & 1 & L & t & p & x & J & P & a & l & T & N & C \\ 
+			x: & 1 & 3 & 2 & 1 & 1 & 1 & 1 & 1 & 3 & 2 & 2 & 3 \\ 
+			y: & 3 & 3 & 1 & 3 & 2 & 3 & 1 & 3 & 1 & 3 & 2 & 3 \\ 
+			Side: & U & R & U & L & U & R & R & D & L & B & R & F \\ 
+			\alpha_{i} & (123) & (12) & (123) & (132) & (123) & (12) & (12) & (23) & (132) & (13) & (12) & (1)
+			\end{array} $
+		\end{center}
+		We now need to retrieve $\sigma_{i}\in S_{3}$, recursively, as follows:
+		\begin{center}
+			$\sigma_{1}=\alpha_{1}\circ\tau^{-1}$ and $\sigma_{i+1}=\alpha_{i}^{-1}\circ \alpha_{i+1}$.
+		\end{center}
+		Permute Rubok's cube by way of $\Phi$. Finding the plaintext, we have the following:
+		\begin{center}
+			$\begin{array}{lcccccccccccc}
+			\sigma_{i}: & (132) & (23) & (23) & (123) & (132) & (23) & (1) & (123) & (12) & (23) & (123) & (12) \\ 
+			Side: & L & D & D & U & L & D & F & U & R & D & U & R \\ 
+			Plaintext: & R & u & b & i & k & s & C & i & p & h & e & r
+			\end{array} $
+		\end{center}
+	\end{block}
+	
+	
+\end{textblock}
+\begin{textblock}{485}(810.25,95)
+	{\centering \Large\Huge \texttt{Trifid Cipher.}}
+	\begin{block}{\texttt{Overview.}}
+			\begin{itemize}
+				\item [$\blacklozenge$] Combination cipher - substitution, followed by transposition and fractionation.
+				\item [$\blacklozenge$] Key size - $26$ letters and $1$ number.
+				\item [$\blacklozenge$] Key space - $403,291,461,126,605,635,584,000,000=26!$ and then some$!!!$
+			\end{itemize}
+	\end{block}
+	\begin{block}{\texttt{Key Selection and Size.}}
+		The key for the Trifid cipher is a $3\times 3\times 3$ array filled at random with the $26$ letters of the alphabet. The last spot in the array is then filled with a dot. There is also an $n\in\mathbb{Z}_{+}$ that is chosen as the period that must divide the length of the message being sent.
+	\end{block}
+\end{textblock}
+\begin{textblock}{485}(810.25,260)
+	\begin{center}
+	\includegraphics[scale = .8]{tripibitch}
+	\end{center}
+\end{textblock}
+\begin{textblock}{485}(810.25,430)
+	\begin{block}{\texttt{Keyspace.}}
+		I can choose which letter goes in the first slot of the array $27$ ways, $26$ ways for the next slot, and so on, until I am out of letters. Thus, there are $27!$ ways to create the array. Then, how many numbers that divide the length of the message determines the total number of possible keys. Let $l$ be how many numbers that will divide the length of the message. Then the keyspace is $27!\cdot l$.
+	\end{block}
+	\begin{block}{\texttt{Encryption.}}
+		Our key is the $3\times 3\times 3$ array seen in the picture. The period we have chosen is $4$.\\
+		Let us encrypt the plaintext ``$TRIFID$ $CIPHER$."\\
+		We first record the coordinates associated with each letter in the key and then seperate the coordinate columns into groups of $4$, the period, as follows:
+		\begin{center}
+			$\begin{array}{lcccccccccccccc}
+			Plaintext: & T & R & I & F &\mid& I & D & C & I &\mid& P & H & E & R \\ 
+				x: & 3 & 3 & 2 & 1 & \mid & 2 & 2 & 3 & 2 & \mid & 2 & 2 & 1 & 3 \\ 
+				y: & 3 & 2 & 1 & 1 & \mid & 1 & 3 & 1 & 1 & \mid & 2 & 2 & 2 & 2 \\ 
+				z: & 3 & 2 & 2 & 2 & \mid & 2 & 3 & 3 & 2 & \mid & 3 & 2 & 3 & 2
+			\end{array} $
+		\end{center}
+		We know concatenate the rows of each grouping as follows:
+		\begin{center}
+			$\begin{array}{cccccccccccccccccccccccccccccccccccccc}
+			 3 & 3 & 2 & 1 & 3 & 2 & 1 & 1 & 3 & 2 & 2 & 2 & \mid & 2 & 2 & 3 & 2 & 1 & 3 & 1 & 1 & 2 & 3 & 3 & 2 & \mid & 2 & 2 & 1 & 3 & 2 & 2 & 2 & 2 & 3 & 2 & 3 & 2
+			\end{array} $
+		\end{center}
+		We now start from the left and write these numbers in columns of $3$ as follows:
+		\begin{center}
+			$\begin{array}{lcccccccccccc}
+			x: & 3 & 1 & 1 & 2 & 2 & 2 & 1 & 3 & 2 & 3 & 2 & 2 \\ 
+			y: & 3 & 3 & 1 & 2 & 2 & 1 & 1 & 3 & 2 & 2 & 2 & 3 \\ 
+			z: & 2 & 2 & 3 & 2 & 3 & 3 & 2 & 2 & 1 & 2 & 3 & 2 \\ 
+			Ciphertext: & W & K & \cdot & H & P & X & F & W & O & R & P & A
+			\end{array} $
+		\end{center}
+	\end{block}
+	
+	\begin{block}{\texttt{Decryption.}}
+		We use the same key for decryption as we used for encryption.\\
+		We start by recording the coordinates of the letters in the ciphertext:
+		\begin{center}
+			$\begin{array}{lcccccccccccc}
+			Ciphertext: & W & K & \cdot & H & P & X & F & W & O & R & P & A\\
+			x: & 3 & 1 & 1 & 2 & 2 & 2 & 1 & 3 & 2 & 3 & 2 & 2 \\ 
+			y: & 3 & 3 & 1 & 2 & 2 & 1 & 1 & 3 & 2 & 2 & 2 & 3 \\ 
+			z: & 2 & 2 & 3 & 2 & 3 & 3 & 2 & 2 & 1 & 2 & 3 & 2 
+			\end{array}$
+		\end{center}
+		I then list the columns into one row and seperate it according to the period:
+		\begin{center}
+			$\begin{array}{cccccccccccccccccccccccccccccccccccccccccccc}
+			3 & 3 & 2 & 1 &\mid& 3 & 2 & 1 & 1 &\mid& 3 & 2 & 2 & 2 & \mid & 2 & 2 & 3 & 2 &\mid& 1 & 3 & 1 & 1 &\mid& 2 & 3 & 3 & 2 & \mid & 2 & 2 & 1 & 3 &\mid& 2 & 2 & 2 & 2 &\mid& 3 & 2 & 3 & 2
+			\end{array} $
+		\end{center}
+		We now stack every three groupings such that the first one is on top the second is in the middle and the third one is on the bottom. I then have the coordinates of the plaintext in columns:
+		\begin{center}
+			$\begin{array}{lcccccccccccccc}
+			x: & 3 & 3 & 2 & 1 & \mid & 2 & 2 & 3 & 2 & \mid & 2 & 2 & 1 & 3 \\ 
+			y: & 3 & 2 & 1 & 1 & \mid & 1 & 3 & 1 & 1 & \mid & 2 & 2 & 2 & 2 \\ 
+			z: & 3 & 2 & 2 & 2 & \mid & 2 & 3 & 3 & 2 & \mid & 3 & 2 & 3 & 2 \\
+			Plaintext: & T & R & I & F&\mid & I & D & C & I &\mid & P & H & E & R 
+			\end{array} $
+		\end{center}
+		
+	\end{block}
+	
+	\end{textblock}
+	\begin{textblock}{485}(810.25,1003)
+		\begin{block}{\texttt{Sources.}}
+			\begin{itemize}
+			\tiny{	\item $\cdot$ Benton, Christopher. Counting the Number of Permutations in Rubik's Cube. Retrieved from http://docbenton.com/lecture-counting.pdf. Accessed: 11 November 2017.}
+			\tiny{ \item $\cdot$	\it{\tiny{Trifid Ciphers.}}\tiny{ Retrieved from https://math.asu.edu/sites/default/files/trifid.pdf. Accessed: 11 November 2017.}}
+			\tiny{	\item $\cdot$ Rokicki, T., Kociemba, H., Davidson, M., and Dethridge, J. (2013). }\it{\tiny{The Diameter of the Rubik's Cube Group Is Twenty.}} \tiny{SIAM Journal on Discrete Mathematics, 27(2), 1082-1105.}
+			\end{itemize}
+		\end{block}
+	\end{textblock}
+	\begin{textblock}{480}(811.75,993)
+		\begin{center}
+			\includegraphics[scale = 1]{line}
+		\end{center}
+	\end{textblock}
+\begin{textblock}{251}(534.5,731)
+		{\centering \Large\huge\texttt{Comparison.}}
+	
+	\begin{block}{\texttt{Key Size.}}
+		\begin{itemize}
+			\item [$\blacklozenge$] The key size of the Trifid Cipher is greater, but not by much.
+			\item [$\blacklozenge$]	The key size of the proposed Rubik's Cipher can be shortened, in exchange for key space.
+		\end{itemize}
+	\end{block}
+	\begin{block}{\texttt{Keyspace.}}
+	\begin{itemize}
+	\item [$\blacklozenge$] The key space of the Trifid Cipher is significantly greater.
+	\item [$\blacklozenge$] The key space of the Rubik's Cipher could be increased in exchange for a larger key size.
+	\end{itemize}
+	\end{block}
+	\begin{block}{\texttt{Security.}}
+		Both ciphers are susceptible to frequencey analysis and brute force prior to transposition and fractionation. However, the Rubik's cipher is less secure.
+	\begin{itemize}
+		\item [$\blacklozenge$] To break the Rubik's Cipher, just try the $5$ non-identity permutations in $S_{3}$.
+		\item [$\blacklozenge$] To break the Trifid Cipher, just try every number that divides the length of the message.
+	\end{itemize}
+	\end{block}
+	
+\end{textblock}
+
+
+\end{document}
